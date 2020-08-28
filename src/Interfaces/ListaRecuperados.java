@@ -15,7 +15,7 @@ public class ListaRecuperados extends javax.swing.JFrame {
 
     int ordenar = 0;
     GestionadorRecuperados g;
-
+    
     public ListaRecuperados() {
         initComponents();
         g = new GestionadorRecuperados();
