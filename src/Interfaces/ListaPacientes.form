@@ -82,7 +82,7 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="ckDificultadRespirar" min="-2" max="-2" attributes="0"/>
+                      <Component id="ckDificultadRespirar" min="-2" pref="23" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="ckTosSeca" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
@@ -234,7 +234,7 @@
         <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
           <Font name="Comic Sans MS" size="12" style="3"/>
         </Property>
-        <Property name="text" type="java.lang.String" value="Ordenar por creaci&#xf3;n"/>
+        <Property name="text" type="java.lang.String" value="Ordenado por creaci&#xf3;n"/>
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btOrdenarActionPerformed"/>

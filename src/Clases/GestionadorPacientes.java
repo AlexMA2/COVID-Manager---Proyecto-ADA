@@ -102,6 +102,14 @@ public class GestionadorPacientes {
     public ArrayList<Paciente> getListPaciente() {
         return listPaciente;
     }
+
+    public void setNumberPacientes(int numberPacientes) {
+        this.numberPacientes = numberPacientes;
+    }
+
+    public void setListPaciente(ArrayList<Paciente> listPaciente) {
+        this.listPaciente = listPaciente;
+    }
     
     
 

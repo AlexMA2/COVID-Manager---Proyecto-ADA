@@ -25,7 +25,13 @@ public class Paciente implements Serializable {
 
     int contadorSintomas;
 
-    public Paciente(String NombreString, String ApellidoString, String EdadString, String TemperaturaString, Boolean DificultadRespirarBoolean, Boolean TosSecaBoolean, Boolean CansancioBoolean, Boolean DolorCabezaBoolean, Boolean DolorGargantaBoolean, Boolean DolorPechoBoolean, Boolean PerdidaGustoBoolean, Boolean PerdidaOlfatoBoolean, int contadorSintomas) {
+    public Paciente() {
+    }
+
+    public Paciente(String NombreString, String ApellidoString, String EdadString, String TemperaturaString, 
+                    Boolean DificultadRespirarBoolean, Boolean TosSecaBoolean, Boolean CansancioBoolean, 
+                    Boolean DolorCabezaBoolean, Boolean DolorGargantaBoolean, Boolean DolorPechoBoolean, 
+                    Boolean PerdidaGustoBoolean, Boolean PerdidaOlfatoBoolean, int contadorSintomas) {
         this.NombreString = NombreString;
         this.ApellidoString = ApellidoString;
         this.EdadString = EdadString;
@@ -143,6 +149,15 @@ public class Paciente implements Serializable {
 
     public void setContadorSintomas(int contadorSintomas) {
         this.contadorSintomas = contadorSintomas;
+    }
+
+    @Override
+    public String toString() {
+        return "\nPaciente: " + NombreString + " " + ApellidoString + "\n- Edad: " + EdadString + "\n- Temperatura: " + TemperaturaString + 
+                " C\n- Sintomas: " + "(" + contadorSintomas + ") \n * Dificultad para respirar: " + DificultadRespirarBoolean + "\n * Tos Seca: " + TosSecaBoolean + 
+                "\n * Cansancio: " + CansancioBoolean + "\n * Dolor de Cabeza: " + DolorCabezaBoolean + "\n * Dolor de garganta: " + DolorGargantaBoolean + 
+                "\n * Dolor de pecho: " + DolorPechoBoolean + "\n * Perdida de gusto: " + PerdidaGustoBoolean + "\n * Perdida de Olfato: " +
+                PerdidaOlfatoBoolean + "\n";
     }
     
     
