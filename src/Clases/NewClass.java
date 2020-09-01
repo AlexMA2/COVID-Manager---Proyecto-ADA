@@ -13,7 +13,10 @@ import java.util.ArrayList;
  */
 public class NewClass {
     public static void main(String[] args) {
-        ArrayList<Integer>asda=new ArrayList<>();
-        System.out.println(asda.size());
+        ListaEnlazada lista = new ListaEnlazada();
+        lista.insertar(5);
+        lista.insertar(12);
+        System.out.println(lista.toString());
+               
     }
 }

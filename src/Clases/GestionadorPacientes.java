@@ -8,6 +8,7 @@ package Clases;
 import Objetos.Paciente;
 import java.io.*;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -87,7 +88,7 @@ public class GestionadorPacientes {
         } else {
             pacientes = "Pacientes:\n";
             for (int i = 0; i <= numberPacientes; i++) {
-                
+
                 pacientes = pacientes + "- " + listPaciente.get(i).getApellidoString() + ", " + listPaciente.get(i).getNombreString() + ".\n";
             }
         }
@@ -110,7 +111,15 @@ public class GestionadorPacientes {
     public void setListPaciente(ArrayList<Paciente> listPaciente) {
         this.listPaciente = listPaciente;
     }
-    
-    
+
+    public String[] getListaNombres() {
+        String nombres[] = new String[listPaciente.size()];
+
+        for (int i = 0; i < listPaciente.size(); i++) {
+            nombres[i] = listPaciente.get(i).getNombreString();
+        }
+        
+        return nombres;
+    }
 
 }
