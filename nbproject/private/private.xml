@@ -12,7 +12,11 @@
         <group name="AprendiendoJava"/>
 =======
         <group name="AprendiendoJava">
-            <file>file:/D:/KJDHF/Documents/NetBeansProjects/COVID-Manager/src/Interfaces/ListaRecuperados.java</file>
+            <file>file:/D:/KJDHF/Documents/NetBeansProjects/COVID-Manager/src/Clases/NewClass.java</file>
+            <file>file:/D:/KJDHF/Documents/NetBeansProjects/COVID-Manager/src/Interfaces/ListaPacientes.java</file>
+            <file>file:/D:/KJDHF/Documents/NetBeansProjects/COVID-Manager/src/Interfaces/Principal.java</file>
+            <file>file:/D:/KJDHF/Documents/NetBeansProjects/COVID-Manager/src/Interfaces/Registro.java</file>
+            <file>file:/D:/KJDHF/Documents/NetBeansProjects/COVID-Manager/src/Clases/GestionadorPacientes.java</file>
         </group>
         <group>
             <file>file:/C:/Users/Usuario/Documents/GitHub/COVID-Manager---Proyecto-ADA/src/Clases/NewClass.java</file>
