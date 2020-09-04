@@ -7,6 +7,9 @@ package Interfaces;
 
 import java.awt.Color;
 import java.awt.Rectangle;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -18,8 +21,25 @@ public class Principal extends javax.swing.JFrame {
         initComponents();
         setTitle("Covid 19 Manager");
         setBounds(750,350,300,280);
+        setLocationRelativeTo(null);
+        setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
+        this.addWindowListener(new WindowAdapter(){
+            @Override
+            public void windowClosing(WindowEvent we){
+                Cerrar();
+            }
+    });
     }
-
+    
+    private void Cerrar(){
+        String botones[] = {"Cerrar", "Cancelar"};
+        int eleccion = JOptionPane.showOptionDialog(this, "¿Desea cerrar la aplicacion?", "Titulo", 0, 0, null, botones, this);
+        if(eleccion == JOptionPane.YES_OPTION){
+            System.exit(0);
+        }else if(eleccion == JOptionPane.NO_OPTION){
+            System.out.println("");
+            }
+    }
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -40,6 +60,11 @@ public class Principal extends javax.swing.JFrame {
         setBackground(new java.awt.Color(0, 153, 153));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setType(java.awt.Window.Type.POPUP);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Verdana", 3, 26)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(51, 0, 204));
@@ -138,6 +163,12 @@ public class Principal extends javax.swing.JFrame {
     }//GEN-LAST:event_btRegistrarActionPerformed
 
     private void btSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalirActionPerformed
+        String botones[] = {"Si", "No"};
+        int eleccion = JOptionPane.showOptionDialog(this, "¿Desea terminar la operacion?", "Titulo", 0, 0, null, botones, this);
+        if(eleccion == JOptionPane.YES_OPTION){
+            System.exit(0);
+        }else if(eleccion == JOptionPane.NO_OPTION){
+            }
         dispose();
     }//GEN-LAST:event_btSalirActionPerformed
 
@@ -152,6 +183,11 @@ public class Principal extends javax.swing.JFrame {
         listaRecuperados.setVisible(true);
         dispose();
     }//GEN-LAST:event_btRecuperadosActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+        Cerrar();
+    }//GEN-LAST:event_formWindowClosing
 
     /**
      * @param args the command line arguments

@@ -19,8 +19,9 @@ import javax.swing.JPanel;
 public class GestionadorPacientes {
 
     int numberPacientes = 0;
-    ArrayList<Paciente> listPaciente;
-    //Paciente A[] = int Paciente [numberPacientes];
+    ListaEnlazada<Paciente> listPaciente;
+    //ArrayList<Paciente> listPaciente;
+    //Paciente A [] = int Paciente [numberPacientes];
 
     public GestionadorPacientes() {
         numberPacientes = recuperarDatos();
@@ -30,10 +31,12 @@ public class GestionadorPacientes {
         try {
             FileOutputStream os = new FileOutputStream("PacientesCovid.obj");
             try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
-                listPaciente.add(p);
+                listPaciente.insertar(p);
+                //listPaciente.add(p);
                 numberPacientes++;
                 for (int i = 0; i <= numberPacientes; i++) {
-                    oos.writeObject(listPaciente.get(i));
+                    oos.writeObject(listPaciente.obtener(i));
+                    //oos.writeObject(listPaciente.get(i));
                 }
             }
             JOptionPane.showMessageDialog(null, "El paciente se ha registrado con exito.", "Registro Completado", 1);
@@ -49,14 +52,16 @@ public class GestionadorPacientes {
         } else {
             pacientes = "Pacientes:\n";
             for (int i = 0; i <= numberPacientes; i++) {
-                pacientes = pacientes + "- " + listPaciente.get(i).getApellidoString() + ", " + listPaciente.get(i).getNombreString() + ".\n";
+                pacientes = pacientes + "- " + listPaciente.obtener(i).getApellidoString() + ", " + listPaciente.obtener(i).getNombreString() + ".\n";
+                //pacientes = pacientes + "- " + listPaciente.get(i).getApellidoString() + ", " + listPaciente.get(i).getNombreString() + ".\n";
             }
         }
         return pacientes;
     }
 
     private int recuperarDatos() {
-        listPaciente = new ArrayList<>();
+        listPaciente = new ListaEnlazada<>();
+        //listPaciente = new ArrayList<>();
         int contador = -1;
         try {
             FileInputStream is = new FileInputStream("PacientesCovid.obj");
@@ -65,7 +70,8 @@ public class GestionadorPacientes {
                 do {
                     p = (Paciente) ois.readObject();
                     if (p != null) {
-                        listPaciente.add(p);
+                        listPaciente.insertar(p);
+                        //listPaciente.add(p);
                         contador++;
                     }
                 } while (p != null);
@@ -89,8 +95,8 @@ public class GestionadorPacientes {
         } else {
             pacientes = "Pacientes:\n";
             for (int i = 0; i <= numberPacientes; i++) {
-
-                pacientes = pacientes + "- " + listPaciente.get(i).getApellidoString() + ", " + listPaciente.get(i).getNombreString() + ".\n";
+                pacientes = pacientes + "- " + listPaciente.obtener(i).getApellidoString() + ", " + listPaciente.obtener(i).getNombreString() + ".\n";
+                //pacientes = pacientes + "- " + listPaciente.get(i).getApellidoString() + ", " + listPaciente.get(i).getNombreString() + ".\n";
             }
         }
 
@@ -101,7 +107,7 @@ public class GestionadorPacientes {
         return numberPacientes;
     }
 
-    public ArrayList<Paciente> getListPaciente() {
+    public ListaEnlazada<Paciente> getListPaciente() {
         return listPaciente;
     }
 
@@ -109,15 +115,17 @@ public class GestionadorPacientes {
         this.numberPacientes = numberPacientes;
     }
 
-    public void setListPaciente(ArrayList<Paciente> listPaciente) {
+    public void setListPaciente(ListaEnlazada<Paciente> listPaciente) {
         this.listPaciente = listPaciente;
     }
 
     public String[] getListaNombres() {
-        String nombres[] = new String[listPaciente.size()];
+        String nombres[] = new String[listPaciente.longitud()];
+        //String nombres[] = new String[listPaciente.size()];
 
-        for (int i = 0; i < listPaciente.size(); i++) {
-            nombres[i] = listPaciente.get(i).getNombreString();
+        for (int i = 0; i < listPaciente.longitud(); i++) {
+            nombres[i] = listPaciente.obtener(i).getNombreString();
+            //nombres[i] = listPaciente.get(i).getNombreString();
         }
         
         return nombres;

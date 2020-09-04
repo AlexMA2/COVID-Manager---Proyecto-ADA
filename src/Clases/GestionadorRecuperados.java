@@ -19,7 +19,8 @@ import javax.swing.JPanel;
 public class GestionadorRecuperados {
 
     int numberRecuperados = 0;
-    ArrayList<PacienteRecuperado> listRecuperados;
+    ListaEnlazada<PacienteRecuperado> listRecuperados;
+    //ArrayList<PacienteRecuperado> listRecuperados;
 
     public GestionadorRecuperados() {
         numberRecuperados = recuperarDatos();
@@ -29,10 +30,12 @@ public class GestionadorRecuperados {
         try {
             FileOutputStream os = new FileOutputStream("PacientesRecuperados.obj");
             try (ObjectOutputStream oos = new ObjectOutputStream(os)) {
-                listRecuperados.add(p);
+                listRecuperados.insertar(p);
+                //listRecuperados.add(p);
                 numberRecuperados++;
                 for (int i = 0; i <= numberRecuperados; i++) {
-                    oos.writeObject(listRecuperados.get(i));
+                    oos.writeObject(listRecuperados.obtener(i));
+                    //oos.writeObject(listRecuperados.get(i));
                 }
             }
             //JOptionPane.showMessageDialog(null, "El paciente se ha registrado con exito.", "Registro Completado", 1);
@@ -48,14 +51,15 @@ public class GestionadorRecuperados {
         } else {
             pacientes = "Pacientes:\n";
             for (int i = 0; i <= numberRecuperados; i++) {
-                pacientes = pacientes + "- " + listRecuperados.get(i).getApellidoString() + ", " + listRecuperados.get(i).getNombreString() + ".\n";
+                pacientes = pacientes + "- " + listRecuperados.obtener(i).getApellidoString() + ", " + listRecuperados.obtener(i).getNombreString() + ".\n";
+                //pacientes = pacientes + "- " + listRecuperados.get(i).getApellidoString() + ", " + listRecuperados.get(i).getNombreString() + ".\n";
             }
         }
         return pacientes;
     }
 
     private int recuperarDatos() {
-        listRecuperados = new ArrayList<>();
+        listRecuperados = new ListaEnlazada<>();
         int contador = -1;
         try {
             FileInputStream is = new FileInputStream("PacientesRecuperados.obj");
@@ -64,7 +68,7 @@ public class GestionadorRecuperados {
                 do {
                     p = (PacienteRecuperado) ois.readObject();
                     if (p != null) {
-                        listRecuperados.add(p);
+                        listRecuperados.insertar(p);
                         contador++;
                     }
                 } while (p != null);
@@ -89,7 +93,7 @@ public class GestionadorRecuperados {
             pacientes = "Pacientes:\n";
             for (int i = 0; i <= numberRecuperados; i++) {
                 
-                pacientes = pacientes + "- " + listRecuperados.get(i).getApellidoString() + ", " + listRecuperados.get(i).getNombreString() + ".\n";
+                pacientes = pacientes + "- " + listRecuperados.obtener(i).getApellidoString() + ", " + listRecuperados.obtener(i).getNombreString() + ".\n";
             }
         }
 

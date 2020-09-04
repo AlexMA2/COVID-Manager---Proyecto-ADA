@@ -6,8 +6,9 @@
 package Interfaces;
 
 import Clases.GestionadorPacientes;
+import Clases.ListaEnlazada;
 import Objetos.Paciente;
-import java.util.ArrayList;
+//import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
@@ -21,7 +22,7 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
 
     int ordenar = 0;
     GestionadorPacientes g;
-    ArrayList<Paciente> listaInicial; 
+    ListaEnlazada<Paciente> listaInicial; 
     
     public ListaPacientes() {
         initComponents();
@@ -233,7 +234,7 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btOrdenarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btOrdenarActionPerformed
-        ArrayList<Paciente> pacientes = g.getListPaciente();
+        ListaEnlazada<Paciente> pacientes = g.getListPaciente();
         switch (ordenar) {
             case 0:
                 btOrdenar.setText("Ordenado por edad");
@@ -264,12 +265,12 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btOrdenarActionPerformed
 
-    private ArrayList<Paciente> ordenarPor(String motivo, ArrayList<Paciente> paci) {
-        if(paci.isEmpty()){
+    private ListaEnlazada<Paciente> ordenarPor(String motivo, ListaEnlazada<Paciente> paci) {
+        if(paci.estaVacio()){
             return paci;
         }
-        
-        if (motivo.equalsIgnoreCase("Edad")) {  
+        //Comentario: Hay un problema en eso, debemos solucionarlo
+        if (motivo.equalsIgnoreCase("Edad")) { 
             Collections.sort(paci, new PacientesComparador(PacientesComparador.EDAD));
             
         }
@@ -301,14 +302,14 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
     private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
         String aBuscar = tfBuscar.getText();
         boolean encontrado = false;
-        ArrayList<Paciente> pacientes = g.getListPaciente();
+        ListaEnlazada<Paciente> pacientes = g.getListPaciente();
         textListado.setText("");
-        for(int i=0; i<pacientes.size(); i++){
+        for(int i=0; i<pacientes.longitud(); i++){
             
-            String apellido = pacientes.get(i).getApellidoString();
+            String apellido = pacientes.obtener(i).getApellidoString();
             if(apellido.startsWith(aBuscar)){
                 
-               textListado.setText(textListado.getText() + pacientes.get(i).toString());        
+               textListado.setText(textListado.getText() + pacientes.obtener(i).toString());        
                
                encontrado = true;
             }           
@@ -321,40 +322,40 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
 
     private void btFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFiltrarActionPerformed
         textListado.setText("");
-        ArrayList<Paciente> pacientes = g.getListPaciente();
-        for(int i=0; i<pacientes.size(); i++){
-            System.out.println(pacientes.get(i).getApellidoString());
-            if(ckDificultadRespirar.isSelected() && pacientes.get(i).getDificultadRespirarBoolean()){
-                textListado.setText(textListado.getText() + pacientes.get(i).toString());
-                System.out.println(ckDificultadRespirar.isSelected() && pacientes.get(i).getDificultadRespirarBoolean());
+        ListaEnlazada<Paciente> pacientes = g.getListPaciente();
+        for(int i=0; i<pacientes.longitud(); i++){
+            System.out.println(pacientes.obtener(i).getApellidoString());
+            if(ckDificultadRespirar.isSelected() && pacientes.obtener(i).getDificultadRespirarBoolean()){
+                textListado.setText(textListado.getText() + pacientes.obtener(i).toString());
+                System.out.println(ckDificultadRespirar.isSelected() && pacientes.obtener(i).getDificultadRespirarBoolean());
             }
-            else if(ckCansancio.isSelected() && pacientes.get(i).getCansancioBoolean()){
-                textListado.setText(textListado.getText() + pacientes.get(i).toString());
-                System.out.println(ckCansancio.isSelected() && pacientes.get(i).getCansancioBoolean());
+            else if(ckCansancio.isSelected() && pacientes.obtener(i).getCansancioBoolean()){
+                textListado.setText(textListado.getText() + pacientes.obtener(i).toString());
+                System.out.println(ckCansancio.isSelected() && pacientes.obtener(i).getCansancioBoolean());
             }
-            else if(ckDolorCabeza.isSelected() && pacientes.get(i).getDolorCabezaBoolean()){
-                textListado.setText(textListado.getText() + pacientes.get(i).toString());
-                System.out.println(ckDolorCabeza.isSelected() && pacientes.get(i).getDolorCabezaBoolean());
+            else if(ckDolorCabeza.isSelected() && pacientes.obtener(i).getDolorCabezaBoolean()){
+                textListado.setText(textListado.getText() + pacientes.obtener(i).toString());
+                System.out.println(ckDolorCabeza.isSelected() && pacientes.obtener(i).getDolorCabezaBoolean());
             }
-            else if(ckDolorGarganta.isSelected() && pacientes.get(i).getDolorGargantaBoolean()){
-                textListado.setText(textListado.getText() + pacientes.get(i).toString());
-                System.out.println(ckDolorGarganta.isSelected() && pacientes.get(i).getDolorGargantaBoolean());
+            else if(ckDolorGarganta.isSelected() && pacientes.obtener(i).getDolorGargantaBoolean()){
+                textListado.setText(textListado.getText() + pacientes.obtener(i).toString());
+                System.out.println(ckDolorGarganta.isSelected() && pacientes.obtener(i).getDolorGargantaBoolean());
             }
-            else if(ckDolorPecho.isSelected() && pacientes.get(i).getDolorPechoBoolean()){
-                textListado.setText(textListado.getText() + pacientes.get(i).toString());
-                System.out.println(ckDolorPecho.isSelected() && pacientes.get(i).getDolorPechoBoolean());
+            else if(ckDolorPecho.isSelected() && pacientes.obtener(i).getDolorPechoBoolean()){
+                textListado.setText(textListado.getText() + pacientes.obtener(i).toString());
+                System.out.println(ckDolorPecho.isSelected() && pacientes.obtener(i).getDolorPechoBoolean());
             }
-            else if(ckPerdidaGusto.isSelected() && pacientes.get(i).getPerdidaGustoBoolean()){
-                textListado.setText(textListado.getText() + pacientes.get(i).toString());
-                System.out.println(ckPerdidaGusto.isSelected() && pacientes.get(i).getPerdidaGustoBoolean());
+            else if(ckPerdidaGusto.isSelected() && pacientes.obtener(i).getPerdidaGustoBoolean()){
+                textListado.setText(textListado.getText() + pacientes.obtener(i).toString());
+                System.out.println(ckPerdidaGusto.isSelected() && pacientes.obtener(i).getPerdidaGustoBoolean());
             } 
-            else if(ckPerdidaOlfato.isSelected() && pacientes.get(i).getPerdidaOlfatoBoolean()){
-                textListado.setText(textListado.getText() + pacientes.get(i).toString());
-                System.out.println(ckPerdidaOlfato.isSelected() && pacientes.get(i).getPerdidaOlfatoBoolean());
+            else if(ckPerdidaOlfato.isSelected() && pacientes.obtener(i).getPerdidaOlfatoBoolean()){
+                textListado.setText(textListado.getText() + pacientes.obtener(i).toString());
+                System.out.println(ckPerdidaOlfato.isSelected() && pacientes.obtener(i).getPerdidaOlfatoBoolean());
             } 
-            else if(ckTosSeca.isSelected() && pacientes.get(i).getTosSecaBoolean()){
-                textListado.setText(textListado.getText() + pacientes.get(i).toString());
-                System.out.println(ckTosSeca.isSelected() && pacientes.get(i).getTosSecaBoolean());
+            else if(ckTosSeca.isSelected() && pacientes.obtener(i).getTosSecaBoolean()){
+                textListado.setText(textListado.getText() + pacientes.obtener(i).toString());
+                System.out.println(ckTosSeca.isSelected() && pacientes.obtener(i).getTosSecaBoolean());
             } 
         }
     }//GEN-LAST:event_btFiltrarActionPerformed
