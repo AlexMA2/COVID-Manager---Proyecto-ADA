@@ -13,6 +13,7 @@ import javax.swing.JOptionPane;
 import Clases.GestionadorRecuperados;
 import Objetos.Paciente;
 import Clases.Validaciones;
+import java.util.Arrays;
 
 /**
  *
@@ -238,7 +239,7 @@ public class Registro extends javax.swing.JFrame {
                                 .addComponent(checkTos))
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(layout.createSequentialGroup()
-                                    .addComponent(checkCansancio)
+                                    .addComponent(checkCansancio, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(checkDolorCabeza))
                                 .addGroup(layout.createSequentialGroup()
@@ -300,15 +301,32 @@ public class Registro extends javax.swing.JFrame {
                     + "- Temperatura: " + TemperaturaString + "\n"
                     + validarChecks();
             if (JOptionPane.showConfirmDialog(this, texto, "Registrar paciente", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
-                g.escritura(new Paciente(NombresString, ApellidosString, EdadString,
-                        TemperaturaString, checkDificultadRespirar.isSelected(),
-                        checkTos.isSelected(), checkCansancio.isSelected(), checkDolorCabeza.isSelected(),
-                        checkDolorGarganta.isSelected(), checkDolorPecho.isSelected(),
-                        checkPerdidaGusto.isSelected(), checkPerdidaOlfato.isSelected(), contador()));
+                
+                if (!buttonAñadir.getText().equalsIgnoreCase("Editar paciente")) {
+                    g.escritura(new Paciente(NombresString, ApellidosString, EdadString,
+                            TemperaturaString, checkDificultadRespirar.isSelected(),
+                            checkTos.isSelected(), checkCansancio.isSelected(), checkDolorCabeza.isSelected(),
+                            checkDolorGarganta.isSelected(), checkDolorPecho.isSelected(),
+                            checkPerdidaGusto.isSelected(), checkPerdidaOlfato.isSelected(), contador()));
+                    System.out.println(Arrays.toString(g.getListaNombres()));
+                }
+                else{
+                    GestionadorPacientes nuevoG = new GestionadorPacientes();
+                    nuevoG.escritura(new Paciente(NombresString, ApellidosString, EdadString,
+                            TemperaturaString, checkDificultadRespirar.isSelected(),
+                            checkTos.isSelected(), checkCansancio.isSelected(), checkDolorCabeza.isSelected(),
+                            checkDolorGarganta.isSelected(), checkDolorPecho.isSelected(),
+                            checkPerdidaGusto.isSelected(), checkPerdidaOlfato.isSelected(), contador()));
+                    
+                }
+                
+                
             }
         } else {
             JOptionPane.showMessageDialog(this, "Rellene los campos", "Campos vacios", 2);
         }
+
+
     }//GEN-LAST:event_buttonAñadirActionPerformed
 
     private void textTemperaturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textTemperaturaKeyTyped
@@ -322,9 +340,17 @@ public class Registro extends javax.swing.JFrame {
     }//GEN-LAST:event_textTemperaturaKeyTyped
 
     private void btVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVolverActionPerformed
-        Principal principal = new Principal();
-        principal.setVisible(true);
-        dispose();
+
+        if (buttonAñadir.getText().equalsIgnoreCase("Editar paciente")) {
+            ListaPacientes losPacientes = new ListaPacientes();
+            losPacientes.setVisible(true);
+            dispose();
+        } else {
+            Principal principal = new Principal();
+            principal.setVisible(true);
+            dispose();
+        }
+
     }//GEN-LAST:event_btVolverActionPerformed
 
     /**
@@ -364,18 +390,26 @@ public class Registro extends javax.swing.JFrame {
             }
         });
     }
+    
+    public void pasarDato(Paciente pacienteAEliminar){
+        eliminarEstePaciente = pacienteAEliminar;
+    }
+    
+    
+    
+    private Paciente eliminarEstePaciente;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btVolver;
-    private javax.swing.JButton buttonAñadir;
-    private javax.swing.JCheckBox checkCansancio;
-    private javax.swing.JCheckBox checkDificultadRespirar;
-    private javax.swing.JCheckBox checkDolorCabeza;
-    private javax.swing.JCheckBox checkDolorGarganta;
-    private javax.swing.JCheckBox checkDolorPecho;
-    private javax.swing.JCheckBox checkPerdidaGusto;
-    private javax.swing.JCheckBox checkPerdidaOlfato;
-    private javax.swing.JCheckBox checkTos;
+    public javax.swing.JButton btVolver;
+    public javax.swing.JButton buttonAñadir;
+    public javax.swing.JCheckBox checkCansancio;
+    public javax.swing.JCheckBox checkDificultadRespirar;
+    public javax.swing.JCheckBox checkDolorCabeza;
+    public javax.swing.JCheckBox checkDolorGarganta;
+    public javax.swing.JCheckBox checkDolorPecho;
+    public javax.swing.JCheckBox checkPerdidaGusto;
+    public javax.swing.JCheckBox checkPerdidaOlfato;
+    public javax.swing.JCheckBox checkTos;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -385,10 +419,10 @@ public class Registro extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JTextField textApellidos;
-    private javax.swing.JTextField textEdad;
-    private javax.swing.JTextField textNombres;
-    private javax.swing.JTextField textTemperatura;
+    public javax.swing.JTextField textApellidos;
+    public javax.swing.JTextField textEdad;
+    public javax.swing.JTextField textNombres;
+    public javax.swing.JTextField textTemperatura;
     // End of variables declaration//GEN-END:variables
 
     private String validarChecks() {

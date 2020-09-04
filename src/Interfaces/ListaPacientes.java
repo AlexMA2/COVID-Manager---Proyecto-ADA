@@ -7,11 +7,12 @@ package Interfaces;
 
 import Clases.GestionadorPacientes;
 import Objetos.Paciente;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.Comparator;
-import java.util.LinkedList;
+import javax.swing.DefaultListModel;
 
 /**
  *
@@ -21,17 +22,15 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
 
     int ordenar = 0;
     GestionadorPacientes g;
-    ArrayList<Paciente> listaInicial; 
-    
+    ArrayList<Paciente> listaInicial;
+
     public ListaPacientes() {
         initComponents();
         g = new GestionadorPacientes();
         setTitle("Lista de pacientes Covid 19");
-        setBounds(650, 300, 700, 570);
-        textListado.setText(g.lectura());
-        listaInicial = g.getListPaciente();
-        jlistPacientes.setListData(g.getListaNombres());
-        
+        setBounds(475,250 , 970, 580);
+        actualizarDatos(false);
+
     }
 
     @SuppressWarnings("unchecked")
@@ -57,8 +56,9 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
         btOrdenar = new javax.swing.JButton();
         btEditar = new javax.swing.JButton();
         btVolver = new javax.swing.JButton();
-        btEditar1 = new javax.swing.JButton();
+        btDarAlta = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
+        modelo = new DefaultListModel();
         jlistPacientes = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -137,10 +137,16 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
             }
         });
 
-        btEditar1.setBackground(new java.awt.Color(153, 153, 255));
-        btEditar1.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
-        btEditar1.setText("Dar de alta");
+        btDarAlta.setBackground(new java.awt.Color(153, 153, 255));
+        btDarAlta.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
+        btDarAlta.setText("Dar de alta");
+        btDarAlta.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btDarAltaActionPerformed(evt);
+            }
+        });
 
+        jlistPacientes.setModel(modelo);
         jScrollPane2.setViewportView(jlistPacientes);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -163,7 +169,7 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
                             .addComponent(ckDolorPecho)
                             .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btDarAlta, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ckDificultadRespirar)
                             .addComponent(ckTosSeca)
                             .addComponent(ckCansancio)
@@ -222,7 +228,7 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btEditar)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btEditar1)
+                        .addComponent(btDarAlta)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btVolver))
                     .addComponent(jScrollPane1))
@@ -260,33 +266,29 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
                 break;
         }
         ordenar++;
-       
+
 
     }//GEN-LAST:event_btOrdenarActionPerformed
 
     private ArrayList<Paciente> ordenarPor(String motivo, ArrayList<Paciente> paci) {
-        if(paci.isEmpty()){
+        if (paci.isEmpty()) {
             return paci;
         }
-        
-        if (motivo.equalsIgnoreCase("Edad")) {  
+
+        if (motivo.equalsIgnoreCase("Edad")) {
             Collections.sort(paci, new PacientesComparador(PacientesComparador.EDAD));
-            
-        }
-        else if(motivo.equalsIgnoreCase("Apellido")){            
+
+        } else if (motivo.equalsIgnoreCase("Apellido")) {
             Collections.sort(paci, new PacientesComparador(PacientesComparador.APELLIDO));
-        }
-        else if(motivo.equalsIgnoreCase("Temperatura")){
+        } else if (motivo.equalsIgnoreCase("Temperatura")) {
             Collections.sort(paci, new PacientesComparador(PacientesComparador.TEMPERATURA));
-            
-        }
-        else if(motivo.equalsIgnoreCase("Sintomas")){
-            Collections.sort(paci, new PacientesComparador(PacientesComparador.NROSINTOMAS));            
-        }
-        else if(motivo.equalsIgnoreCase("Creacion")){
+
+        } else if (motivo.equalsIgnoreCase("Sintomas")) {
+            Collections.sort(paci, new PacientesComparador(PacientesComparador.NROSINTOMAS));
+        } else if (motivo.equalsIgnoreCase("Creacion")) {
             paci = listaInicial;
         }
-        
+
         return paci;
 
     }
@@ -297,71 +299,160 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
         dispose();
     }//GEN-LAST:event_btVolverActionPerformed
 
-    
+
     private void btBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btBuscarActionPerformed
         String aBuscar = tfBuscar.getText();
         boolean encontrado = false;
         ArrayList<Paciente> pacientes = g.getListPaciente();
         textListado.setText("");
-        for(int i=0; i<pacientes.size(); i++){
-            
+        for (int i = 0; i < pacientes.size(); i++) {
+
             String apellido = pacientes.get(i).getApellidoString();
-            if(apellido.startsWith(aBuscar)){
-                
-               textListado.setText(textListado.getText() + pacientes.get(i).toString());        
-               
-               encontrado = true;
-            }           
+            if (apellido.startsWith(aBuscar)) {
+
+                textListado.setText(textListado.getText() + pacientes.get(i).toString());
+
+                encontrado = true;
+            }
         }
-        
-        if(!encontrado){
-            textListado.setText("No existe ese apellido");         
+
+        if (!encontrado) {
+            textListado.setText("No existe ese apellido");
         }
     }//GEN-LAST:event_btBuscarActionPerformed
 
     private void btFiltrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btFiltrarActionPerformed
         textListado.setText("");
         ArrayList<Paciente> pacientes = g.getListPaciente();
-        for(int i=0; i<pacientes.size(); i++){
+        for (int i = 0; i < pacientes.size(); i++) {
             System.out.println(pacientes.get(i).getApellidoString());
-            if(ckDificultadRespirar.isSelected() && pacientes.get(i).getDificultadRespirarBoolean()){
+            if (ckDificultadRespirar.isSelected() && pacientes.get(i).getDificultadRespirarBoolean()) {
                 textListado.setText(textListado.getText() + pacientes.get(i).toString());
                 System.out.println(ckDificultadRespirar.isSelected() && pacientes.get(i).getDificultadRespirarBoolean());
-            }
-            else if(ckCansancio.isSelected() && pacientes.get(i).getCansancioBoolean()){
+            } else if (ckCansancio.isSelected() && pacientes.get(i).getCansancioBoolean()) {
                 textListado.setText(textListado.getText() + pacientes.get(i).toString());
                 System.out.println(ckCansancio.isSelected() && pacientes.get(i).getCansancioBoolean());
-            }
-            else if(ckDolorCabeza.isSelected() && pacientes.get(i).getDolorCabezaBoolean()){
+            } else if (ckDolorCabeza.isSelected() && pacientes.get(i).getDolorCabezaBoolean()) {
                 textListado.setText(textListado.getText() + pacientes.get(i).toString());
                 System.out.println(ckDolorCabeza.isSelected() && pacientes.get(i).getDolorCabezaBoolean());
-            }
-            else if(ckDolorGarganta.isSelected() && pacientes.get(i).getDolorGargantaBoolean()){
+            } else if (ckDolorGarganta.isSelected() && pacientes.get(i).getDolorGargantaBoolean()) {
                 textListado.setText(textListado.getText() + pacientes.get(i).toString());
                 System.out.println(ckDolorGarganta.isSelected() && pacientes.get(i).getDolorGargantaBoolean());
-            }
-            else if(ckDolorPecho.isSelected() && pacientes.get(i).getDolorPechoBoolean()){
+            } else if (ckDolorPecho.isSelected() && pacientes.get(i).getDolorPechoBoolean()) {
                 textListado.setText(textListado.getText() + pacientes.get(i).toString());
                 System.out.println(ckDolorPecho.isSelected() && pacientes.get(i).getDolorPechoBoolean());
-            }
-            else if(ckPerdidaGusto.isSelected() && pacientes.get(i).getPerdidaGustoBoolean()){
+            } else if (ckPerdidaGusto.isSelected() && pacientes.get(i).getPerdidaGustoBoolean()) {
                 textListado.setText(textListado.getText() + pacientes.get(i).toString());
                 System.out.println(ckPerdidaGusto.isSelected() && pacientes.get(i).getPerdidaGustoBoolean());
-            } 
-            else if(ckPerdidaOlfato.isSelected() && pacientes.get(i).getPerdidaOlfatoBoolean()){
+            } else if (ckPerdidaOlfato.isSelected() && pacientes.get(i).getPerdidaOlfatoBoolean()) {
                 textListado.setText(textListado.getText() + pacientes.get(i).toString());
                 System.out.println(ckPerdidaOlfato.isSelected() && pacientes.get(i).getPerdidaOlfatoBoolean());
-            } 
-            else if(ckTosSeca.isSelected() && pacientes.get(i).getTosSecaBoolean()){
+            } else if (ckTosSeca.isSelected() && pacientes.get(i).getTosSecaBoolean()) {
                 textListado.setText(textListado.getText() + pacientes.get(i).toString());
                 System.out.println(ckTosSeca.isSelected() && pacientes.get(i).getTosSecaBoolean());
-            } 
+            }
         }
     }//GEN-LAST:event_btFiltrarActionPerformed
 
     private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
-       
+
+        int seleccion = jlistPacientes.getSelectedIndex();
+        if (seleccion != -1) {
+            Paciente encontrado = null;
+            String pacienteNombre = jlistPacientes.getSelectedValue();
+
+            ArrayList<Paciente> pacientes = g.getListPaciente();
+            for (Paciente pac : pacientes) {
+                if (pac.getNombreString().equals(pacienteNombre)) {
+                    encontrado = pac;
+                    break;
+                }
+            }
+            if (encontrado != null) {
+                Registro edicion = new Registro();
+
+                edicion.setVisible(true);
+                dispose();
+                //Colocar datos del paciente en ese registro
+
+                edicion.textApellidos.setText(encontrado.getApellidoString());
+                edicion.textNombres.setText(encontrado.getNombreString());
+                edicion.textEdad.setText(encontrado.getEdadString());
+                edicion.textTemperatura.setText(encontrado.getTemperaturaString());
+                if (encontrado.getTosSecaBoolean()) {
+                    edicion.checkTos.doClick();
+                }
+                if (encontrado.getCansancioBoolean()) {
+                    edicion.checkCansancio.doClick();
+                }
+                if (encontrado.getDificultadRespirarBoolean()) {
+                    edicion.checkDificultadRespirar.doClick();
+                }
+                if (encontrado.getDolorCabezaBoolean()) {
+                    edicion.checkDolorCabeza.doClick();
+                }
+                if (encontrado.getDolorGargantaBoolean()) {
+                    edicion.checkDolorGarganta.doClick();
+                }
+                if (encontrado.getDolorPechoBoolean()) {
+                    edicion.checkDolorPecho.doClick();
+                }
+                if (encontrado.getPerdidaGustoBoolean()) {
+                    edicion.checkPerdidaGusto.doClick();
+                }
+                if (encontrado.getPerdidaOlfatoBoolean()) {
+                    edicion.checkPerdidaOlfato.doClick();
+                }
+                //Eliminar paciente de la lista
+                System.out.println(Arrays.toString(g.getListaNombres()));
+                if (g.getListPaciente().remove(encontrado)) {
+                    
+                    edicion.buttonAñadir.setText("Editar paciente");
+                    System.out.println("DATOS EDITADOS");
+                    //Añadir el nuevo paciente del registro en la posicion donde estaba el paciente eliminado 
+                    actualizarDatos(true);
+                    
+                    System.out.println(Arrays.toString(g.getListaNombres()));
+                }
+
+            }
+
+        }
+
+
     }//GEN-LAST:event_btEditarActionPerformed
+
+    private void btDarAltaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btDarAltaActionPerformed
+        int seleccion = jlistPacientes.getSelectedIndex();
+        if (seleccion != -1) {
+            Paciente encontrado = null;
+            String pacienteNombre = jlistPacientes.getSelectedValue();
+            ArrayList<Paciente> pacientes = g.getListPaciente();
+            for (Paciente pac : pacientes) {
+                if (pac.getNombreString().equals(pacienteNombre)) {
+                    encontrado = pac;
+                    System.out.println(pac);
+                    break;
+                }
+            }
+            if (encontrado != null) {
+
+                if (g.getListPaciente().remove(encontrado)) {
+                    actualizarDatos(true);
+
+                }
+            }
+        }
+    }//GEN-LAST:event_btDarAltaActionPerformed
+
+    public void actualizarDatos(boolean escribir) {
+        if (escribir) {
+            g.nuevaEscritura(g.getListPaciente());
+        }
+        textListado.setText(g.lectura());
+        listaInicial = g.getListPaciente();
+        jlistPacientes.setListData(g.getListaNombres());
+    }
 
     /**
      * @param args the command line arguments
@@ -401,8 +492,8 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btBuscar;
+    private javax.swing.JButton btDarAlta;
     private javax.swing.JButton btEditar;
-    private javax.swing.JButton btEditar1;
     private javax.swing.JButton btFiltrar;
     private javax.swing.JButton btOrdenar;
     private javax.swing.JButton btVolver;
@@ -420,6 +511,7 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JList<String> jlistPacientes;
+    private DefaultListModel modelo;
     private javax.swing.JTextArea textListado;
     private javax.swing.JTextField tfBuscar;
     // End of variables declaration//GEN-END:variables

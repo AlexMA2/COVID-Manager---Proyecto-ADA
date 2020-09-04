@@ -9,6 +9,8 @@ import Objetos.Paciente;
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
@@ -39,6 +41,25 @@ public class GestionadorPacientes {
         } catch (IOException e) {
             JOptionPane.showMessageDialog(null, "Error al momento de registrar.", "Registro Fallido", 0);
         }
+    }
+
+    public void nuevaEscritura(ArrayList<Paciente> lista) {
+        FileOutputStream os;
+        try {
+            os = new FileOutputStream("PacientesCovid.obj");
+            ObjectOutputStream oos = new ObjectOutputStream(os);
+            
+            for (int i = 0; i < lista.size(); i++) {
+                oos.writeObject(listPaciente.get(i));
+            }
+            numberPacientes = lista.size() - 1;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GestionadorPacientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GestionadorPacientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 
     public String lectura() {
@@ -118,7 +139,7 @@ public class GestionadorPacientes {
         for (int i = 0; i < listPaciente.size(); i++) {
             nombres[i] = listPaciente.get(i).getNombreString();
         }
-        
+
         return nombres;
     }
 
