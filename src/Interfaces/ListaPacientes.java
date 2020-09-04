@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.LinkedList;
 
 /**
  *
@@ -29,6 +30,8 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
         setBounds(650, 300, 700, 570);
         textListado.setText(g.lectura());
         listaInicial = g.getListPaciente();
+        jlistPacientes.setListData(g.getListaNombres());
+        
     }
 
     @SuppressWarnings("unchecked")
@@ -55,6 +58,8 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
         btEditar = new javax.swing.JButton();
         btVolver = new javax.swing.JButton();
         btEditar1 = new javax.swing.JButton();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jlistPacientes = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -117,6 +122,11 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
         btEditar.setBackground(new java.awt.Color(255, 153, 153));
         btEditar.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
         btEditar.setText("Editar Paciente");
+        btEditar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btEditarActionPerformed(evt);
+            }
+        });
 
         btVolver.setBackground(new java.awt.Color(204, 204, 204));
         btVolver.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
@@ -130,6 +140,8 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
         btEditar1.setBackground(new java.awt.Color(153, 153, 255));
         btEditar1.setFont(new java.awt.Font("Comic Sans MS", 3, 12)); // NOI18N
         btEditar1.setText("Dar de alta");
+
+        jScrollPane2.setViewportView(jlistPacientes);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -147,27 +159,29 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
                             .addComponent(ckPerdidaOlfato)
                             .addComponent(btFiltrar, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ckPerdidaGusto)
+                            .addComponent(ckDolorGarganta)
+                            .addComponent(ckDolorPecho)
+                            .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ckDificultadRespirar)
                             .addComponent(ckTosSeca)
                             .addComponent(ckCansancio)
                             .addComponent(ckDolorCabeza)
-                            .addComponent(ckDolorGarganta)
-                            .addComponent(ckDolorPecho)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(tfBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 188, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(btBuscar))
-                            .addComponent(jLabel3)
-                            .addComponent(btEditar, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btVolver, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btEditar1, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 310, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(20, 20, 20))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(jLabel3))
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 154, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 442, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addGap(278, 278, 278)
                 .addComponent(jLabel1)
-                .addGap(111, 111, 111))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -177,7 +191,8 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
                 .addGap(18, 18, 18)
                 .addComponent(jLabel2)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(tfBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 26, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -209,11 +224,9 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(btEditar1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(btVolver)
-                        .addGap(0, 13, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane1)
-                        .addContainerGap())))
+                        .addComponent(btVolver))
+                    .addComponent(jScrollPane1))
+                .addGap(0, 15, Short.MAX_VALUE))
         );
 
         pack();
@@ -247,7 +260,7 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
                 break;
         }
         ordenar++;
-
+       
 
     }//GEN-LAST:event_btOrdenarActionPerformed
 
@@ -346,6 +359,10 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btFiltrarActionPerformed
 
+    private void btEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btEditarActionPerformed
+       
+    }//GEN-LAST:event_btEditarActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -401,6 +418,8 @@ public class ListaPacientes<T> extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JList<String> jlistPacientes;
     private javax.swing.JTextArea textListado;
     private javax.swing.JTextField tfBuscar;
     // End of variables declaration//GEN-END:variables
