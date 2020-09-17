@@ -40,7 +40,7 @@
                           <Component id="ckDolorPecho" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="btEditar" alignment="0" min="-2" pref="269" max="-2" attributes="0"/>
                           <Component id="btVolver" alignment="0" min="-2" pref="269" max="-2" attributes="0"/>
-                          <Component id="btEditar1" alignment="0" min="-2" pref="269" max="-2" attributes="0"/>
+                          <Component id="btnDarAlta" alignment="0" min="-2" pref="269" max="-2" attributes="0"/>
                           <Component id="ckDificultadRespirar" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="ckTosSeca" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Component id="ckCansancio" alignment="0" min="-2" max="-2" attributes="0"/>
@@ -53,8 +53,8 @@
                           <Component id="jLabel3" alignment="0" min="-2" max="-2" attributes="0"/>
                       </Group>
                       <EmptySpace type="separate" max="-2" attributes="0"/>
-                      <Component id="jScrollPane2" min="-2" pref="154" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+                      <Component id="jScrollPane2" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="38" max="-2" attributes="0"/>
                       <Component id="jScrollPane1" min="-2" pref="442" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
@@ -63,7 +63,7 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace min="-2" pref="278" max="-2" attributes="0"/>
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
-              <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="459" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -107,13 +107,13 @@
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btEditar" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btEditar1" min="-2" max="-2" attributes="0"/>
+                      <Component id="btnDarAlta" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="btVolver" min="-2" max="-2" attributes="0"/>
                   </Group>
                   <Component id="jScrollPane1" alignment="1" max="32767" attributes="0"/>
               </Group>
-              <EmptySpace min="0" pref="15" max="32767" attributes="0"/>
+              <EmptySpace min="0" pref="39" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -251,6 +251,7 @@
         <Property name="text" type="java.lang.String" value="Editar Paciente"/>
       </Properties>
       <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btEditarMouseClicked"/>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btEditarActionPerformed"/>
       </Events>
     </Component>
@@ -268,7 +269,7 @@
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btVolverActionPerformed"/>
       </Events>
     </Component>
-    <Component class="javax.swing.JButton" name="btEditar1">
+    <Component class="javax.swing.JButton" name="btnDarAlta">
       <Properties>
         <Property name="background" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
           <Color blue="ff" green="99" red="99" type="rgb"/>
@@ -278,6 +279,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Dar de alta"/>
       </Properties>
+      <Events>
+        <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="btnDarAltaMouseClicked"/>
+      </Events>
     </Component>
     <Container class="javax.swing.JScrollPane" name="jScrollPane2">
       <AuxValues>

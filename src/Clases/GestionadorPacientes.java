@@ -7,10 +7,9 @@ package Clases;
 
 import Objetos.Paciente;
 import java.io.*;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import javax.swing.JPanel;
 
 /**
  *
@@ -19,9 +18,7 @@ import javax.swing.JPanel;
 public class GestionadorPacientes {
 
     int numberPacientes = 0;
-    ListaEnlazada<Paciente> listPaciente;
-    //ArrayList<Paciente> listPaciente;
-    //Paciente A [] = int Paciente [numberPacientes];
+    ListaEnlazada<Paciente> listPaciente;  
 
     public GestionadorPacientes() {
         numberPacientes = recuperarDatos();
@@ -52,11 +49,29 @@ public class GestionadorPacientes {
         } else {
             pacientes = "Pacientes:\n";
             for (int i = 0; i <= numberPacientes; i++) {
-                pacientes = pacientes + "- " + listPaciente.obtener(i).getApellidoString() + ", " + listPaciente.obtener(i).getNombreString() + ".\n";
-                //pacientes = pacientes + "- " + listPaciente.get(i).getApellidoString() + ", " + listPaciente.get(i).getNombreString() + ".\n";
+                pacientes = pacientes + "- " + listPaciente.obtener(i).getApellidoString() + ", " + listPaciente.obtener(i).getNombreString() + ".\n";                
             }
         }
         return pacientes;
+    }
+    
+    public void nuevaEscritura(ListaEnlazada<Paciente> lista) {
+        FileOutputStream os;
+        try {
+            os = new FileOutputStream("PacientesCovid.obj");
+            ObjectOutputStream oos = new ObjectOutputStream(os);
+            
+            for (int i = 0; i < lista.longitud(); i++) {
+                oos.writeObject(listPaciente.obtener(i));
+            }
+            numberPacientes = lista.longitud() - 1;
+        } catch (FileNotFoundException ex) {
+            Logger.getLogger(GestionadorPacientes.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(GestionadorPacientes.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        
     }
 
     private int recuperarDatos() {
@@ -77,7 +92,7 @@ public class GestionadorPacientes {
                 } while (p != null);
             }
         } catch (IOException | ClassNotFoundException e) {
-            System.out.println("Error en Lectura");
+            
         }
 
         return contador;
@@ -121,14 +136,22 @@ public class GestionadorPacientes {
 
     public String[] getListaNombres() {
         String nombres[] = new String[listPaciente.longitud()];
-        //String nombres[] = new String[listPaciente.size()];
-
-        for (int i = 0; i < listPaciente.longitud(); i++) {
-            nombres[i] = listPaciente.obtener(i).getNombreString();
-            //nombres[i] = listPaciente.get(i).getNombreString();
-        }
         
+        for (int i = 0; i < listPaciente.longitud(); i++) {
+            Paciente pac = listPaciente.obtener(i);
+            nombres[i] = pac.getCodigo() + " | " + pac.getNombreString() + " " + pac.getApellidoString();           
+        }        
         return nombres;
+    }
+    
+    public Paciente aPaciente(int codigo){
+        Paciente pac = null;
+        for(int i=0; i<listPaciente.longitud(); i++){            
+            if(listPaciente.obtener(i).getCodigo() == codigo){
+                return listPaciente.obtener(i);
+            }
+        }
+        return pac;
     }
 
 }

@@ -1,12 +1,7 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Interfaces;
 
-import java.awt.Color;
-import java.awt.Rectangle;
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import javax.swing.JOptionPane;
@@ -20,26 +15,35 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
         setTitle("Covid 19 Manager");
-        setBounds(750,350,300,280);
+        setBounds(750, 350, 300, 280);
         setLocationRelativeTo(null);
         setDefaultCloseOperation(DO_NOTHING_ON_CLOSE);
-        this.addWindowListener(new WindowAdapter(){
+        this.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent we){
+            public void windowClosing(WindowEvent we) {
                 Cerrar();
             }
-    });
+        });
+        centrar(275,500);
     }
-    
-    private void Cerrar(){
+
+    private void centrar(int anchoGUI, int altoGUI) {
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int X = (screenSize.width - anchoGUI) / 2;
+        int Y = (screenSize.height - altoGUI) / 2;
+        setBounds(X, Y, anchoGUI, altoGUI);
+    }
+
+    private void Cerrar() {
         String botones[] = {"Cerrar", "Cancelar"};
         int eleccion = JOptionPane.showOptionDialog(this, "¿Desea cerrar la aplicacion?", "Titulo", 0, 0, null, botones, this);
-        if(eleccion == JOptionPane.YES_OPTION){
+        if (eleccion == JOptionPane.YES_OPTION) {
             System.exit(0);
-        }else if(eleccion == JOptionPane.NO_OPTION){
-            System.out.println("");
-            }
+        } else if (eleccion == JOptionPane.NO_OPTION) {
+            
+        }
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -53,7 +57,6 @@ public class Principal extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
         btRegistrados = new javax.swing.JButton();
         btRegistrar = new javax.swing.JButton();
-        btRecuperados = new javax.swing.JButton();
         btSalir = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -92,15 +95,6 @@ public class Principal extends javax.swing.JFrame {
             }
         });
 
-        btRecuperados.setBackground(new java.awt.Color(153, 255, 153));
-        btRecuperados.setFont(new java.awt.Font("Dialog", 3, 14)); // NOI18N
-        btRecuperados.setText("Pacientes recuperados");
-        btRecuperados.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btRecuperadosActionPerformed(evt);
-            }
-        });
-
         btSalir.setBackground(new java.awt.Color(204, 204, 204));
         btSalir.setFont(new java.awt.Font("Dialog", 3, 14)); // NOI18N
         btSalir.setText("Salir");
@@ -115,49 +109,45 @@ public class Principal extends javax.swing.JFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(30, 30, 30)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(btRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btRecuperados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btRegistrados, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(40, 40, 40)
-                        .addComponent(btSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(35, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addGap(84, 84, 84))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
-                        .addGap(68, 68, 68))))
+                        .addGap(22, 22, 22)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btRegistrados, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(56, 56, 56)
+                        .addComponent(btSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(58, 58, 58)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(10, 10, 10)
+                                .addComponent(jLabel2))
+                            .addComponent(jLabel1))))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addContainerGap()
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel2)
-                .addGap(12, 12, 12)
-                .addComponent(btRegistrados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btRecuperados, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btRegistrar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btSalir)
-                .addContainerGap())
+                .addGap(18, 18, 18)
+                .addComponent(btRegistrados, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btRegistrar, javax.swing.GroupLayout.PREFERRED_SIZE, 100, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(34, 34, 34)
+                .addComponent(btSalir, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(94, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void btRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRegistrarActionPerformed
-        Registro panel=new Registro();
+        Registro panel = new Registro();
         panel.setVisible(true);
         dispose();
     }//GEN-LAST:event_btRegistrarActionPerformed
@@ -165,24 +155,18 @@ public class Principal extends javax.swing.JFrame {
     private void btSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btSalirActionPerformed
         String botones[] = {"Si", "No"};
         int eleccion = JOptionPane.showOptionDialog(this, "¿Desea terminar la operacion?", "Titulo", 0, 0, null, botones, this);
-        if(eleccion == JOptionPane.YES_OPTION){
+        if (eleccion == JOptionPane.YES_OPTION) {
             System.exit(0);
-        }else if(eleccion == JOptionPane.NO_OPTION){
-            }
+        } else if (eleccion == JOptionPane.NO_OPTION) {
+        }
         dispose();
     }//GEN-LAST:event_btSalirActionPerformed
 
     private void btRegistradosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRegistradosActionPerformed
-        ListaPacientes listaPacientes=new ListaPacientes();
+        ListaPacientes listaPacientes = new ListaPacientes();
         listaPacientes.setVisible(true);
         dispose();
     }//GEN-LAST:event_btRegistradosActionPerformed
-
-    private void btRecuperadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btRecuperadosActionPerformed
-        ListaRecuperados listaRecuperados=new ListaRecuperados();
-        listaRecuperados.setVisible(true);
-        dispose();
-    }//GEN-LAST:event_btRecuperadosActionPerformed
 
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         // TODO add your handling code here:
@@ -225,7 +209,6 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btRecuperados;
     private javax.swing.JButton btRegistrados;
     private javax.swing.JButton btRegistrar;
     private javax.swing.JButton btSalir;

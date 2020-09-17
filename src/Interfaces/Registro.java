@@ -1,19 +1,9 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package Interfaces;
 
 import Clases.GestionadorPacientes;
-import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JOptionPane;
-import Clases.GestionadorRecuperados;
 import Objetos.Paciente;
-import Clases.Validaciones;
-import java.util.Arrays;
+import java.util.StringTokenizer;
 
 /**
  *
@@ -21,12 +11,10 @@ import java.util.Arrays;
  */
 public class Registro extends javax.swing.JFrame {
 
-    Validaciones v;
     GestionadorPacientes g;
 
     public Registro() {
         initComponents();
-        v = new Validaciones();
         g = new GestionadorPacientes();
         setTitle("Registro de pacientes Covid 19");
         setBounds(650, 350, 570, 400);
@@ -262,21 +250,21 @@ public class Registro extends javax.swing.JFrame {
 
     private void textApellidosKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textApellidosKeyTyped
         char c = evt.getKeyChar();
-        if (Character.isDigit(c) == true) {
+        if (Character.isDigit(c)) {
             evt.consume();
         }
     }//GEN-LAST:event_textApellidosKeyTyped
 
     private void textNombresKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textNombresKeyTyped
         char c = evt.getKeyChar();
-        if (Character.isDigit(c) == true) {
+        if (Character.isDigit(c)) {
             evt.consume();
         }
     }//GEN-LAST:event_textNombresKeyTyped
 
     private void textEdadKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textEdadKeyTyped
         char c = evt.getKeyChar();
-        if (Character.isAlphabetic(c) == true || c == ' ') {
+        if (c > '9' || c < '0') {
             evt.consume();
         }
         if (textEdad.getText().length() == 3) {
@@ -286,41 +274,45 @@ public class Registro extends javax.swing.JFrame {
 
     private void buttonAñadirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonAñadirActionPerformed
 
-        String NombresString = v.quitaEspacios(textNombres.getText());
-        String ApellidosString = v.quitaEspacios(textApellidos.getText());
+        String NombresString = borrarEspacios(textNombres.getText());
+        String ApellidosString = borrarEspacios(textApellidos.getText());
         String EdadString = textEdad.getText();
         String TemperaturaString = textTemperatura.getText();
+        
         if (!"".equals(NombresString)
                 && !"".equals(ApellidosString)
                 && !"".equals(TemperaturaString)
                 && !"".equals(EdadString)
                 && !"".equals(validarChecks())) {
+            if(Integer.parseInt(TemperaturaString) <= 35 || Integer.parseInt(TemperaturaString) >= 45){
+                JOptionPane.showMessageDialog(this, "La temperatura debe estar entre 35 y 45", "Temperatura erronea", 2);
+                return;
+            }
             String texto = "Paciente:\n "
                     + "- " + ApellidosString + " " + NombresString + " de " + EdadString + ".\n"
                     + "Presenta sintomas de:\n"
                     + "- Temperatura: " + TemperaturaString + "\n"
                     + validarChecks();
             if (JOptionPane.showConfirmDialog(this, texto, "Registrar paciente", JOptionPane.YES_NO_OPTION, 1) == JOptionPane.YES_OPTION) {
-                
+
                 if (!buttonAñadir.getText().equalsIgnoreCase("Editar paciente")) {
                     g.escritura(new Paciente(NombresString, ApellidosString, EdadString,
                             TemperaturaString, checkDificultadRespirar.isSelected(),
                             checkTos.isSelected(), checkCansancio.isSelected(), checkDolorCabeza.isSelected(),
                             checkDolorGarganta.isSelected(), checkDolorPecho.isSelected(),
-                            checkPerdidaGusto.isSelected(), checkPerdidaOlfato.isSelected(), contador()));
-                    System.out.println(Arrays.toString(g.getListaNombres()));
-                }
-                else{
+                            checkPerdidaGusto.isSelected(), checkPerdidaOlfato.isSelected(), contador(), g.getListPaciente().longitud()));
+
+                } else {
                     GestionadorPacientes nuevoG = new GestionadorPacientes();
+                    ListaPacientes blabla = new ListaPacientes();
                     nuevoG.escritura(new Paciente(NombresString, ApellidosString, EdadString,
                             TemperaturaString, checkDificultadRespirar.isSelected(),
                             checkTos.isSelected(), checkCansancio.isSelected(), checkDolorCabeza.isSelected(),
                             checkDolorGarganta.isSelected(), checkDolorPecho.isSelected(),
-                            checkPerdidaGusto.isSelected(), checkPerdidaOlfato.isSelected(), contador()));
-                    
+                            checkPerdidaGusto.isSelected(), checkPerdidaOlfato.isSelected(), contador(), blabla.encontrado.getCodigo()));
+
                 }
-                
-                
+
             }
         } else {
             JOptionPane.showMessageDialog(this, "Rellene los campos", "Campos vacios", 2);
@@ -329,14 +321,39 @@ public class Registro extends javax.swing.JFrame {
 
     }//GEN-LAST:event_buttonAñadirActionPerformed
 
+    public String eliminarEspacios(String cadena) {
+        cadena = cadena.trim();
+        String nuevaCadena = "";
+        boolean espacio = false;
+        for (int i = 0; i < cadena.length(); i++) {
+            if (cadena.charAt(i) != ' ' || espacio == false) {
+                nuevaCadena += cadena.charAt(i);
+                if (espacio == false) {
+                    espacio = true;
+                }
+            }
+        }
+        return nuevaCadena;
+    }
+
+    public String borrarEspacios(String muchoTexto) {
+        StringTokenizer tokens = new StringTokenizer(muchoTexto);
+        StringBuilder buff = new StringBuilder();
+        while (tokens.hasMoreTokens()) {
+            buff.append(" ").append(tokens.nextToken());
+        }
+        return buff.toString().trim();
+    }
+
     private void textTemperaturaKeyTyped(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_textTemperaturaKeyTyped
         char c = evt.getKeyChar();
-        if (Character.isAlphabetic(c) == true || c == ' ') {
+        if (c > '9' || c < '0') {
             evt.consume();
         }
         if (textTemperatura.getText().length() == 2) {
             evt.consume();
         }
+       
     }//GEN-LAST:event_textTemperaturaKeyTyped
 
     private void btVolverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btVolverActionPerformed
@@ -353,50 +370,10 @@ public class Registro extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btVolverActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(Registro.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Registro().setVisible(true);
-            }
-        });
-    }
-    
-    public void pasarDato(Paciente pacienteAEliminar){
+    public void pasarDato(Paciente pacienteAEliminar) {
         eliminarEstePaciente = pacienteAEliminar;
     }
-    
-    
-    
+
     private Paciente eliminarEstePaciente;
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

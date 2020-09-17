@@ -1,6 +1,8 @@
 package Clases;
 
-public class ListaEnlazada<T> {
+import Objetos.Paciente;
+
+public class ListaEnlazada<T> extends Object{
 
     private class Nodo {
 
@@ -107,7 +109,7 @@ public class ListaEnlazada<T> {
     }
 
     public void borrar(int indice) {
-        if (cabeza == null) {
+        if (cabeza != null) {
             if (indice == 0) {
                 Nodo primer = cabeza;
                 cabeza = cabeza.siguiente;
@@ -121,26 +123,35 @@ public class ListaEnlazada<T> {
                     contador++;
                 }
                 Nodo temp = puntero.siguiente;
-                puntero.siguiente = temp.siguiente;
-                temp.siguiente = null;
+                puntero.siguiente = temp.siguiente;                
                 tamanio--;
             }
 
         }
     }
 
+    public boolean borrar(Object valor){
+        for(int i=0;i<tamanio; i++){
+            if(obtener(i).equals(valor)){
+                borrar(i);
+                return true;
+            }
+        }
+        return false;
+    }
+    
     public void colocar(int indice, T data) {
         insertar(indice, data);
         borrar(indice + 1);
 
     }
 
-    public Object[] aArray() {
-        Object arreglo[] = new Object[tamanio];
+    public Paciente[] aArray() {        
+        Paciente arreglo[] = new Paciente[tamanio];
         Nodo aux = cabeza;
         int cont = 0;
         while (aux != null) {
-            arreglo[cont] = aux.dato;
+            arreglo[cont] = (Paciente) aux.dato;
             aux = aux.siguiente;
             cont++;
         }
@@ -150,16 +161,20 @@ public class ListaEnlazada<T> {
 
     @Override
     public String toString() {
-        String retorno = "[ ";
+        String retorno = "";
         Nodo aux = cabeza;
-        while(aux != null && aux.siguiente != null){
-            
-            retorno = retorno + aux.dato.toString() + ", ";
-            aux = aux.siguiente;
+        if (aux != null) {
+            while (aux != null && aux.siguiente != null) {
+
+                retorno = retorno + aux.dato.toString() + ", ";
+                aux = aux.siguiente;
+            }
+            return retorno + aux.dato.toString();
         }
-        return retorno + aux.dato.toString() + "]";
+        else{
+            return retorno;
+        }
+
     }
-    
-    
 
 }
